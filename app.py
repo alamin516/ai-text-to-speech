@@ -6,6 +6,12 @@ import os
 app = Flask(__name__)
 CORS(app)  # enable CORS for all routes
 
+
+@app.route('/')
+def home():
+    return "Hello, World!"
+
+
 @app.route('/generate-audio', methods=['POST'])
 def generate_audio():
     data = request.get_json()
