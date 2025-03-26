@@ -15,6 +15,7 @@ def index():
 @app.route('/generate-audio', methods=['POST'])
 def generate_audio():
     data = request.get_json()
+    print(f"Received data: {data}")  # Log the received data
     text = data.get('text', '')
     language = data.get('language', 'en')
     slow = data.get('slow', False)
@@ -24,11 +25,13 @@ def generate_audio():
         # If fast is True, set slow to False, which generates faster speech
         tts_speed = False if fast else slow
         tts = gTTS(text=text, lang=language, slow=tts_speed)
-        audio_file_path = 'output.mp3'
+        audio_file_path = os.path.join(os.getcwd(), 'output.mp3')
         tts.save(audio_file_path)
-        return send_file(audio_file_path, as_attachment=True)
+        print(f"Audio saved to {audio_file_path}")  # Log saved file path
+        return send_file(audio_file_path, as_attachment=True, mimetype="audio/mpeg")
     
     return jsonify({"error": "No text provided"}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
