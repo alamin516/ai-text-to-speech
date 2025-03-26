@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 from flask_cors import CORS  # import CORS
 from gtts import gTTS
 import os
@@ -8,8 +8,8 @@ CORS(app)  # enable CORS for all routes
 
 
 @app.route('/')
-def home():
-    return "Hello, World!"
+def index():
+    return render_template("index.html")
 
 
 @app.route('/generate-audio', methods=['POST'])
